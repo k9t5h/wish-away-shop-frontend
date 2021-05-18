@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { CART_API_URL } from "../CartPage/CartPage";
 import axios from "axios";
+import { CartContext } from "../../context/CartContext";
 
 const useStyles = makeStyles({
   card: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles({
 const ProductCard = (props) => {
   const classes = useStyles();
   const { name, description, price, imageUrl } = props.product;
+  const { setHasCartUpdate } = useContext(CartContext);
 
   const addProductToCart = async () => {
     try {
@@ -57,7 +59,13 @@ const ProductCard = (props) => {
         <Typography variant="h6" component="h2">
           {price} USD
         </Typography>
-        <Button color="primary" onClick={() => addProductToCart()}>
+        <Button
+          color="primary"
+          onClick={() => {
+            addProductToCart();
+            setHasCartUpdate(true);
+          }}
+        >
           Add to Cart
         </Button>
       </CardActions>
