@@ -18,9 +18,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+export const CART_API_URL = "http://localhost:8762/cart";
+
 const CartPage = () => {
   const classes = useStyles();
-  const CART_API_URL = "http://localhost:8762/cart";
 
   const [cartProducts, setCartProducts] = useState([]);
 
@@ -68,7 +69,7 @@ const CartPage = () => {
           ) : (
             cartProducts.map((product) => (
               <CartCard
-                key={product}
+                key={product.id}
                 product={product}
                 removeItemFromCart={removeItemFromCart}
               />
