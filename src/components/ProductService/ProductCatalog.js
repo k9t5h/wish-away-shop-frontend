@@ -7,9 +7,12 @@ import { makeStyles } from "@material-ui/core/styles";
 const PRODUCT_REST_API_URL = "http://localhost:8762/products";
 
 const useStyles = makeStyles(() => ({
+  root: {
+    maxWidth: "1200px",
+    margin: "0 auto",
+  },
   container: {
     marginTop: "50px",
-    paddingBottom: "20px",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
@@ -38,7 +41,7 @@ const ProductCatalog = () => {
   }, []);
 
   return (
-    <div>
+    <div className={classes.root}>
       {isError ? (
         <Error />
       ) : (
