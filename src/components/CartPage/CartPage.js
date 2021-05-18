@@ -60,7 +60,7 @@ const CartPage = () => {
       <Box m={5}>
         <Paper className={classes.paper} elevation={3}>
           <Box m={2}>
-            <Typography variant={"h4"}>Cart</Typography>
+            <Typography variant={"h4"}>Your cart</Typography>
           </Box>
 
           {cartProducts.length === 0 ? (
@@ -77,7 +77,7 @@ const CartPage = () => {
           <Box m={2}>
             {cartProducts.length !== 0 && (
               <Typography variant={"h5"}>
-                Cart total: {calculateCartTotal()}${" "}
+                Cart total: {calculateCartTotal()}$
               </Typography>
             )}
           </Box>

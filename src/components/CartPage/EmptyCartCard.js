@@ -16,7 +16,7 @@ const EmptyCartCard = () => {
   const classes = useStyles();
   return (
     <Card className={classes.card} variant="outlined">
-      <Typography variant={"h5"}>No item in cart.</Typography>
+      <Typography variant={"h5"}>You have no item in your cart!</Typography>
     </Card>
   );
 };
