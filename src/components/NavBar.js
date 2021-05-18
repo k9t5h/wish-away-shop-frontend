@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Badge,
+} from "@material-ui/core";
 import { CardGiftcard, ShoppingCart } from "@material-ui/icons";
+import { CartContext } from "../context/CartContext";
 
 const useStyles = makeStyles((theme) => ({
   left: {
@@ -62,6 +69,7 @@ const NavBar = () => {
   const classes = useStyles();
 
   const history = useHistory();
+  const cartContext = useContext(CartContext);
 
   return (
     <AppBar position="static">
@@ -107,7 +115,12 @@ const NavBar = () => {
             color="inherit"
             onClick={() => history.push("/cart")}
           >
-            <ShoppingCart />
+            <Badge
+              badgeContent={cartContext.cartProducts.length}
+              color="primary"
+            >
+              <ShoppingCart />
+            </Badge>
           </IconButton>
         </div>
       </Toolbar>
