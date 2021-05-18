@@ -5,10 +5,26 @@ import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 import { CardGiftcard, ShoppingCart } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
+  left: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "30%",
   },
-  bar: {
+  right: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    width: "30%",
+  },
+  center: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  toolBar: {
+    display: "flex",
+    justifyContent: "space-between",
     background: "linear-gradient(to left, rgb(67, 198, 172), rgb(25, 22, 84))",
   },
   giftButton: {
@@ -22,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: "none",
-    marginRight: theme.spacing(5),
+    marginRight: theme.spacing(3),
+    marginLeft: theme.spacing(3),
     color: "white",
     fontSize: "1.2rem",
     padding: "20px 0",
@@ -45,9 +62,9 @@ const NavBar = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.grow}>
-      <AppBar className={classes.bar} position="static">
-        <Toolbar>
+    <AppBar position="static">
+      <Toolbar className={classes.toolBar}>
+        <div className={classes.left}>
           <IconButton
             edge="start"
             className={classes.giftButton}
@@ -58,7 +75,8 @@ const NavBar = () => {
           <Typography className={classes.title} variant="h6" noWrap>
             Wish Away Shop
           </Typography>
-          <div className={classes.grow} />
+        </div>
+        <div className={classes.center}>
           <NavLink
             to="/products"
             className={classes.link}
@@ -80,13 +98,15 @@ const NavBar = () => {
           >
             About
           </NavLink>
-          <div className={classes.grow} />
+        </div>
+        <div className={classes.right}>
           <IconButton edge="end" color="inherit">
             <ShoppingCart />
           </IconButton>
-        </Toolbar>
-      </AppBar>
-    </div>
+        </div>
+      </Toolbar>
+    </AppBar>
+    // </div>
   );
 };
 
