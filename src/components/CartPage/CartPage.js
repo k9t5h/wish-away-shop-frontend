@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import CartCard from "./CartCard";
 import EmptyCartCard from "./EmptyCartCard";
 
@@ -34,6 +35,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CartPage = () => {
+  const history = useHistory();
   const classes = useStyles();
   const CART_API_URL = "http://localhost:8762/cart";
 
@@ -99,6 +101,7 @@ const CartPage = () => {
                   className={classes.checkoutButton}
                   variant="outlined"
                   disableElevation
+                  onClick={() => history.push("/checkout")}
                 >
                   Checkout
                 </Button>
