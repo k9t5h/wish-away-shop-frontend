@@ -7,8 +7,9 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
 import CloseIcon from "@material-ui/icons/Close";
+import { CartContext } from "../../context/CartContext";
 const useStyles = makeStyles(() => ({
   card: {
     width: "80%",
@@ -36,7 +37,7 @@ const useStyles = makeStyles(() => ({
 
 const CartCard = ({ product, removeItemFromCart }) => {
   const classes = useStyles();
-
+  const { setHasCartUpdate } = useContext(CartContext);
   return (
     <Card className={classes.card} variant="outlined">
       <CardMedia
@@ -53,7 +54,12 @@ const CartCard = ({ product, removeItemFromCart }) => {
         </Box>
       </CardContent>
       <Box>
-        <IconButton onClick={() => removeItemFromCart(product.id)}>
+        <IconButton
+          onClick={() => {
+            removeItemFromCart(product.id);
+            setHasCartUpdate(true);
+          }}
+        >
           <CloseIcon />
         </IconButton>
       </Box>
