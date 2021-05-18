@@ -4,6 +4,7 @@ import {
   Box,
   Typography,
   makeStyles,
+  Button,
 } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -15,6 +16,20 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  checkoutButton: {
+    margin: "15px",
+    width: "180px",
+    height: "40px",
+    fontSize: "1.1rem",
+
+    "&:hover": {
+      backgroundColor: "#a1e4d2",
+    },
+    "& .MuiTouchRipple-root span": {
+      backgroundColor: "blue",
+      opacity: 0.3,
+    },
   },
 }));
 
@@ -76,9 +91,18 @@ const CartPage = () => {
           )}
           <Box m={2}>
             {cartProducts.length !== 0 && (
-              <Typography variant={"h5"}>
-                Cart total: {calculateCartTotal()}$
-              </Typography>
+              <>
+                <Typography variant={"h5"}>
+                  Cart total: {calculateCartTotal()}$
+                </Typography>
+                <Button
+                  className={classes.checkoutButton}
+                  variant="outlined"
+                  disableElevation
+                >
+                  Checkout
+                </Button>
+              </>
             )}
           </Box>
         </Paper>
