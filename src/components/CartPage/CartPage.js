@@ -4,7 +4,6 @@ import {
   Box,
   Typography,
   makeStyles,
-  Card,
 } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -34,6 +33,14 @@ const CartPage = () => {
     }
   };
 
+  const calculateCartTotal = () => {
+    let sum = 0;
+    for (let product of cartProducts) {
+      sum += product.price;
+    }
+    return sum;
+  };
+
   const removeItemFromCart = async (productId) => {
     try {
       const response = await axios.delete(
@@ -52,7 +59,10 @@ const CartPage = () => {
     <Container>
       <Box m={5}>
         <Paper className={classes.paper} elevation={3}>
-          <Typography variant={"h4"}>Cart</Typography>
+          <Box m={2}>
+            <Typography variant={"h4"}>Cart</Typography>
+          </Box>
+
           {cartProducts.length === 0 ? (
             <EmptyCartCard />
           ) : (
@@ -64,6 +74,13 @@ const CartPage = () => {
               />
             ))
           )}
+          <Box m={2}>
+            {cartProducts.length !== 0 && (
+              <Typography variant={"h5"}>
+                Cart total: {calculateCartTotal()}${" "}
+              </Typography>
+            )}
+          </Box>
         </Paper>
       </Box>
     </Container>
