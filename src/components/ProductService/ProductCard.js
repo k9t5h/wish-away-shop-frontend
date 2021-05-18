@@ -13,6 +13,7 @@ import {
 const useStyles = makeStyles({
   card: {
     maxWidth: 345,
+    marginBottom: "50px",
   },
   media: {
     height: 250,
