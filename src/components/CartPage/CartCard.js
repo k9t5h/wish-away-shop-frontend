@@ -47,9 +47,7 @@ const CartCard = ({ product, removeItemFromCart }) => {
       ></CardMedia>
       <CardContent className={classes.cardContent}>
         <Box textAlign="left" m={3}>
-          <Typography textAlign="left" variant={"h5"}>
-            {product.name}
-          </Typography>
+          <Typography variant={"h5"}>{product.name}</Typography>
           <Typography color="textSecondary">{`Category: ${product.category}`}</Typography>
           <Typography>{`Price: ${product.price}$`}</Typography>
         </Box>

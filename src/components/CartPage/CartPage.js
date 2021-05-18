@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CartCard from "./CartCard";
+import EmptyCartCard from "./EmptyCartCard";
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -53,7 +54,7 @@ const CartPage = () => {
         <Paper className={classes.paper} elevation={3}>
           <Typography variant={"h4"}>Cart</Typography>
           {cartProducts.length === 0 ? (
-            <Card>No items in cart</Card>
+            <EmptyCartCard />
           ) : (
             cartProducts.map((product) => (
               <CartCard
