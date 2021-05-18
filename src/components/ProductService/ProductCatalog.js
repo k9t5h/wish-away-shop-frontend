@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard from "./ProductCard";
+import Error from "../Error";
 import { makeStyles } from "@material-ui/core/styles";
 
 const PRODUCT_REST_API_URL = "http://localhost:8762/products";
@@ -13,17 +14,6 @@ const useStyles = makeStyles(() => ({
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
-  },
-  error: {
-    border: "1px solid",
-    margin: "50px auto",
-    padding: "15px 10px 15px 50px",
-    width: "400px",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "10px center",
-    color: "#D8000C",
-    backgroundColor: "#FFBABA",
-    backgroundImage: "url('https://i.imgur.com/GnyDvKN.png')",
   },
 }));
 
@@ -50,9 +40,7 @@ const ProductCatalog = () => {
   return (
     <div>
       {isError ? (
-        <div className={classes.error}>
-          Products could not be loaded due to an error!
-        </div>
+        <Error />
       ) : (
         <div className={classes.container}>
           {products.map((product) => (
