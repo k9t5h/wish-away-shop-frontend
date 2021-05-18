@@ -3,6 +3,7 @@ import axios from "axios";
 import ProductCard from "./ProductCard";
 import Error from "../Error";
 import { makeStyles } from "@material-ui/core/styles";
+import ProductFilter from "./ProductFilter";
 
 const PRODUCT_REST_API_URL = "http://localhost:8762/products";
 
@@ -26,19 +27,26 @@ const ProductCatalog = () => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      setIsError(false);
-
-      try {
-        const response = await axios.get(PRODUCT_REST_API_URL);
-        setProducts(response.data);
-      } catch (error) {
-        setIsError(true);
-      }
-    };
-
     fetchProducts();
   }, []);
+
+  const fetchProducts = async (category = "") => {
+    setIsError(false);
+
+    try {
+      const response =
+        category === ""
+          ? await axios.get(PRODUCT_REST_API_URL)
+          : await axios.get(PRODUCT_REST_API_URL + `?category=${category}`);
+      setProducts(response.data);
+    } catch (error) {
+      setIsError(true);
+    }
+  };
+
+  const filterByCategory = (category) => {
+    fetchProducts(category);
+  };
 
   return (
     <div className={classes.root}>
@@ -46,6 +54,7 @@ const ProductCatalog = () => {
         <Error />
       ) : (
         <div className={classes.container}>
+          <ProductFilter onCategoryClick={filterByCategory} />
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
