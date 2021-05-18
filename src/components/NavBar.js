@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 import { CardGiftcard, ShoppingCart } from "@material-ui/icons";
@@ -61,6 +61,8 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = () => {
   const classes = useStyles();
 
+  const history = useHistory();
+
   return (
     <AppBar position="static">
       <Toolbar className={classes.toolBar}>
@@ -100,7 +102,11 @@ const NavBar = () => {
           </NavLink>
         </div>
         <div className={classes.right}>
-          <IconButton edge="end" color="inherit">
+          <IconButton
+            edge="end"
+            color="inherit"
+            onClick={() => history.push("/cart")}
+          >
             <ShoppingCart />
           </IconButton>
         </div>
