@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CartCard = ({ imgUrl, product }) => {
+const CartCard = ({ product, removeItemFromCart }) => {
   const classes = useStyles();
 
   return (
@@ -42,7 +42,7 @@ const CartCard = ({ imgUrl, product }) => {
       <CardMedia
         className={classes.cardMedia}
         component="img"
-        src={imgUrl}
+        src={product.imageUrl}
         height="200"
       ></CardMedia>
       <CardContent className={classes.cardContent}>
@@ -55,7 +55,7 @@ const CartCard = ({ imgUrl, product }) => {
         </Box>
       </CardContent>
       <Box>
-        <IconButton>
+        <IconButton onClick={() => removeItemFromCart(product.id)}>
           <CloseIcon />
         </IconButton>
       </Box>
