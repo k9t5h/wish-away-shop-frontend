@@ -11,6 +11,7 @@ const useStyles = makeStyles(() => ({
     position: "fixed",
     top: "116px",
     right: "25px",
+    zIndex: "1",
   },
 }));
 
