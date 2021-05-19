@@ -4,15 +4,15 @@ import {
   Box,
   Typography,
   makeStyles,
-  Button,
 } from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import CartCard from "./CartCard";
 import EmptyCartCard from "./EmptyCartCard";
 import CustomButton from "../CheckoutPage/CustomButton";
+import Error from "../Error";
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -36,21 +36,27 @@ const CartPage = () => {
   const history = useHistory();
   const classes = useStyles();
 
+  const [apiError, setApiError] = useState(false);
+
   const { cartProducts } = useContext(CartContext);
 
   const removeItemFromCart = async (productId) => {
+    setApiError(false);
     try {
       const response = await axios.delete(
         `${CART_API_URL}/remove/${productId}`
       );
       console.log(response);
     } catch (error) {
-      console.log(error);
+      setApiError(true);
     }
   };
 
   return (
     <Container>
+      {apiError && (
+        <Error message={"Unexpected error occured, please try again!"} />
+      )}
       <Box m={5}>
         <Paper className={classes.paper} elevation={3}>
           <Box m={2}>
