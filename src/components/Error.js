@@ -15,14 +15,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Error = () => {
+const Error = (props) => {
   const classes = useStyles();
 
-  return (
-    <div className={classes.error}>
-      Page could not be loaded. Please try again later!
-    </div>
-  );
+  return <div className={classes.error}>{props.message}</div>;
 };
 
 export default Error;

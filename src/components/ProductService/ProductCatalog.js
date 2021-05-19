@@ -57,7 +57,7 @@ const ProductCatalog = () => {
         <Info message={"Products could not be found in this category."} />
       )}
       {isError ? (
-        <Error />
+        <Error message={"Page could not be loaded. Please try again later!"} />
       ) : (
         <div className={classes.container}>
           <ProductFilter onCategoryClick={filterByCategory} />
