@@ -8,7 +8,9 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import axios from "axios";
 import React, { useContext, useState } from "react";
+import { useHistory } from "react-router";
 import { CartContext } from "../../context/CartContext";
 import { calculateCartTotal } from "../CartPage/CartPage";
 import CustomButton from "./CustomButton";
@@ -41,8 +43,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CheckoutPage = () => {
+  const ORDER_API_URL = "http://localhost:8762/order";
   const classes = useStyles();
-  const { cartProducts } = useContext(CartContext);
+  const history = useHistory();
+  const { cartProducts, setHasCartUpdate } = useContext(CartContext);
 
   const [customerDetails, setCustomerDetails] = useState({
     name: "",
@@ -66,7 +70,20 @@ const CheckoutPage = () => {
 
   const sendOrder = async () => {
     let validData = validateInput();
-    console.log(customerDetails);
+    if (validData) {
+      let address = `${customerDetails.country} ${customerDetails.postalCode}, ${customerDetails.city}, ${customerDetails.address}`;
+      let customer = customerDetails;
+      customer.address = address;
+      delete customer.postalCode;
+      delete customer.country;
+      try {
+        const response = await axios.post(ORDER_API_URL, customer);
+        setHasCartUpdate(true);
+        history.push("/order-confirm", { order: response.data });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const validateInput = () => {
@@ -111,7 +128,11 @@ const CheckoutPage = () => {
           <Card variant="outlined" className={classes.card}>
             <Typography variant={"h6"}>Cart details</Typography>
             {cartProducts.map((product) => (
-              <Card variant={"outlined"} className={classes.smallCard}>
+              <Card
+                key={product.id}
+                variant={"outlined"}
+                className={classes.smallCard}
+              >
                 <Typography variant={"h7"}>{product.name}</Typography>
                 <Typography variant={"h7"}>Price: {product.price}$</Typography>
               </Card>
