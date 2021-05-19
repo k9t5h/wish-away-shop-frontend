@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
     marginTop: "50px",
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "center",
     overflow: "hidden",
   },
 }));
