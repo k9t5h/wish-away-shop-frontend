@@ -4,6 +4,7 @@ import ProductCard from "./ProductCard";
 import Error from "../Error";
 import { makeStyles } from "@material-ui/core/styles";
 import ProductFilter from "./ProductFilter";
+import Info from "../Info";
 
 const PRODUCT_REST_API_URL = "http://localhost:8762/products";
 
@@ -25,6 +26,7 @@ const ProductCatalog = () => {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
   const [isError, setIsError] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -39,6 +41,7 @@ const ProductCatalog = () => {
           ? await axios.get(PRODUCT_REST_API_URL)
           : await axios.get(PRODUCT_REST_API_URL + `?category=${category}`);
       setProducts(response.data);
+      setIsEmpty(response.data.length === 0 ? true : false);
     } catch (error) {
       setIsError(true);
     }
@@ -50,6 +53,9 @@ const ProductCatalog = () => {
 
   return (
     <div className={classes.root}>
+      {isEmpty && (
+        <Info message={"Products could not be found in this category."} />
+      )}
       {isError ? (
         <Error />
       ) : (
