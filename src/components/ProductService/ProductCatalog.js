@@ -3,8 +3,11 @@ import axios from "axios";
 import ProductCard from "./ProductCard";
 import Error from "../Error";
 import { makeStyles } from "@material-ui/core/styles";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 import ProductFilter from "./ProductFilter";
 import Info from "../Info";
+import ModalDialog from "./ModalDialog";
 
 const PRODUCT_REST_API_URL = "http://localhost:8762/products";
 
@@ -20,6 +23,12 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     overflow: "hidden",
   },
+  button: {
+    position: "fixed",
+    top: "216px",
+    right: "25px",
+    zIndex: "1",
+  },
 }));
 
 const ProductCatalog = () => {
@@ -27,6 +36,7 @@ const ProductCatalog = () => {
   const [products, setProducts] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -51,6 +61,15 @@ const ProductCatalog = () => {
     fetchProducts(category);
   };
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    fetchProducts();
+  };
+
   return (
     <div className={classes.root}>
       {isEmpty && (
@@ -61,6 +80,10 @@ const ProductCatalog = () => {
       ) : (
         <div className={classes.container}>
           <ProductFilter onCategoryClick={filterByCategory} />
+          <Fab className={classes.button} onClick={handleOpen}>
+            <AddIcon />
+          </Fab>
+          <ModalDialog open={open} handleClose={handleClose} />
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

@@ -13,6 +13,9 @@ import { CART_API_URL } from "../CartPage/CartPage";
 import axios from "axios";
 import { CartContext } from "../../context/CartContext";
 
+const NO_AVAILABLE_IMAGE =
+  "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg";
+
 const useStyles = makeStyles({
   card: {
     maxWidth: 345,
@@ -40,10 +43,19 @@ const ProductCard = (props) => {
     }
   };
 
+  const useFallbackImage = (e) => {
+    e.target.src = NO_AVAILABLE_IMAGE;
+  };
+
   return (
     <Card className={classes.card}>
       <CardActionArea>
-        <CardMedia className={classes.media} component="img" src={imageUrl} />
+        <CardMedia
+          className={classes.media}
+          component="img"
+          src={imageUrl}
+          onError={useFallbackImage}
+        />
 
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
