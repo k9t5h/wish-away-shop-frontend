@@ -8,10 +8,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import { calculateCartTotal } from "../CartPage/CartPage";
 import CustomButton from "./CustomButton";
+import CustomTextField from "./CustomTextField";
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -43,6 +44,63 @@ const CheckoutPage = () => {
   const classes = useStyles();
   const { cartProducts } = useContext(CartContext);
 
+  const [customerDetails, setCustomerDetails] = useState({
+    name: "",
+    email: "",
+    address: "",
+    city: "",
+    phone: "",
+    postalCode: "",
+    country: "",
+  });
+
+  const [inputError, setInputError] = useState({
+    name: "",
+    email: "",
+    address: "",
+    city: "",
+    phone: "",
+    postalCode: "",
+    country: "",
+  });
+
+  const sendOrder = async () => {
+    let validData = validateInput();
+    console.log(customerDetails);
+  };
+
+  const validateInput = () => {
+    let errors = inputError;
+    let valid = true;
+    for (let property in customerDetails) {
+      let field = customerDetails[property];
+      if (field === "") {
+        errors[property] = "Required field!";
+        valid = false;
+      }
+      if (property === "email") {
+        const re =
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let result = re.test(String(field).toLowerCase());
+        if (result === false) {
+          valid = false;
+          errors[property] = "Invalid email format.";
+        }
+      }
+      if (property === "phone") {
+        if (!field.match("^[0-9]+$")) {
+          errors[property] = "Invalid input.";
+          valid = false;
+        } else if (field.length !== 11) {
+          errors[property] = "Invalid input. Phone number wrong length.";
+          valid = false;
+        }
+      }
+    }
+    setInputError({ ...errors });
+    return valid;
+  };
+
   return (
     <Container>
       <Box m={5}>
@@ -68,85 +126,84 @@ const CheckoutPage = () => {
             </Typography>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  id="name"
-                  name="name"
+                <CustomTextField
+                  error={inputError}
+                  setData={setCustomerDetails}
+                  data={customerDetails}
+                  setError={setInputError}
+                  fieldname={"name"}
                   label="Name"
-                  fullWidth
-                  autoComplete="name"
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  id="email"
-                  name="email"
+                <CustomTextField
+                  error={inputError}
+                  setData={setCustomerDetails}
+                  data={customerDetails}
+                  setError={setInputError}
+                  fieldname={"email"}
                   label="Email"
-                  fullWidth
-                  autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  id="address1"
-                  name="address1"
-                  label="Address line 1"
-                  fullWidth
-                  autoComplete="shipping address-line1"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="address2"
-                  name="address2"
-                  label="Address line 2"
-                  fullWidth
-                  autoComplete="shipping address-line2"
+                <CustomTextField
+                  error={inputError}
+                  setData={setCustomerDetails}
+                  data={customerDetails}
+                  setError={setInputError}
+                  fieldname={"address"}
+                  label="Address"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id="city"
-                  name="city"
+                <CustomTextField
+                  error={inputError}
+                  setData={setCustomerDetails}
+                  data={customerDetails}
+                  setError={setInputError}
+                  fieldname={"city"}
                   label="City"
-                  fullWidth
-                  autoComplete="shipping address-level2"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  id="state"
-                  name="state"
-                  label="State/Province/Region"
-                  fullWidth
+                <CustomTextField
+                  error={inputError}
+                  setData={setCustomerDetails}
+                  data={customerDetails}
+                  setError={setInputError}
+                  fieldname={"phone"}
+                  label="Phone number"
+                  required={false}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id="zip"
-                  name="zip"
+                <CustomTextField
+                  error={inputError}
+                  setData={setCustomerDetails}
+                  data={customerDetails}
+                  setError={setInputError}
+                  fieldname={"postalCode"}
                   label="Zip / Postal code"
-                  fullWidth
-                  autoComplete="shipping postal-code"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id="country"
-                  name="country"
+                <CustomTextField
+                  error={inputError}
+                  setData={setCustomerDetails}
+                  data={customerDetails}
+                  setError={setInputError}
+                  fieldname={"country"}
                   label="Country"
-                  fullWidth
-                  autoComplete="shipping country"
                 />
               </Grid>
             </Grid>
           </Card>
-          <CustomButton text={"Order"} onClickHandler={() => {}} />
+          <CustomButton
+            text={"Order"}
+            onClickHandler={() => {
+              sendOrder();
+            }}
+          />
         </Paper>
       </Box>
     </Container>
