@@ -10,6 +10,10 @@ import {
 import React, { useContext } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import { CartContext } from "../../context/CartContext";
+
+const NO_AVAILABLE_IMAGE =
+  "https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-1.jpg";
+
 const useStyles = makeStyles(() => ({
   card: {
     width: "80%",
@@ -35,6 +39,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const useFallbackImage = (e) => {
+  e.target.src = NO_AVAILABLE_IMAGE;
+};
+
 const CartCard = ({ product, removeItemFromCart }) => {
   const classes = useStyles();
   const { setHasCartUpdate } = useContext(CartContext);
@@ -44,6 +52,7 @@ const CartCard = ({ product, removeItemFromCart }) => {
         className={classes.cardMedia}
         component="img"
         src={product.imageUrl}
+        onError={useFallbackImage}
         height="200"
       ></CardMedia>
       <CardContent className={classes.cardContent}>
