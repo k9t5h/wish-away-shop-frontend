@@ -9,16 +9,16 @@ const useStyles = makeStyles(() => ({
     width: "400px",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "10px center",
-    color: "#D8000C",
-    backgroundColor: "#FFBABA",
-    backgroundImage: "url('https://i.imgur.com/GnyDvKN.png')",
+    color: "#00529B",
+    backgroundColor: "#BDE5F8",
+    backgroundImage: "url('https://i.imgur.com/ilgqWuX.png')",
   },
 }));
 
-const Error = (props) => {
+const Info = (props) => {
   const classes = useStyles();
 
   return <div className={classes.error}>{props.message}</div>;
 };
 
-export default Error;
+export default Info;

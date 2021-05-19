@@ -16,7 +16,7 @@ import { CartContext } from "../../context/CartContext";
 const useStyles = makeStyles({
   card: {
     maxWidth: 345,
-    marginBottom: "50px",
+    margin: "0 25px 50px 25px",
   },
   media: {
     height: 250,

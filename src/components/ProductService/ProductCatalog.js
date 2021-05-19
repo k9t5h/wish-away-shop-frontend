@@ -3,6 +3,8 @@ import axios from "axios";
 import ProductCard from "./ProductCard";
 import Error from "../Error";
 import { makeStyles } from "@material-ui/core/styles";
+import ProductFilter from "./ProductFilter";
+import Info from "../Info";
 
 const PRODUCT_REST_API_URL = "http://localhost:8762/products";
 
@@ -15,7 +17,7 @@ const useStyles = makeStyles(() => ({
     marginTop: "50px",
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "center",
     overflow: "hidden",
   },
 }));
@@ -24,28 +26,41 @@ const ProductCatalog = () => {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
   const [isError, setIsError] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      setIsError(false);
-
-      try {
-        const response = await axios.get(PRODUCT_REST_API_URL);
-        setProducts(response.data);
-      } catch (error) {
-        setIsError(true);
-      }
-    };
-
     fetchProducts();
   }, []);
 
+  const fetchProducts = async (category = "") => {
+    setIsError(false);
+
+    try {
+      const response =
+        category === ""
+          ? await axios.get(PRODUCT_REST_API_URL)
+          : await axios.get(PRODUCT_REST_API_URL + `?category=${category}`);
+      setProducts(response.data);
+      setIsEmpty(response.data.length === 0 ? true : false);
+    } catch (error) {
+      setIsError(true);
+    }
+  };
+
+  const filterByCategory = (category) => {
+    fetchProducts(category);
+  };
+
   return (
     <div className={classes.root}>
+      {isEmpty && (
+        <Info message={"Products could not be found in this category."} />
+      )}
       {isError ? (
-        <Error />
+        <Error message={"Page could not be loaded. Please try again later!"} />
       ) : (
         <div className={classes.container}>
+          <ProductFilter onCategoryClick={filterByCategory} />
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
