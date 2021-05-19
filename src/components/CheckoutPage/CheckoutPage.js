@@ -5,7 +5,6 @@ import {
   Grid,
   makeStyles,
   Paper,
-  TextField,
   Typography,
 } from "@material-ui/core";
 import axios from "axios";
@@ -79,7 +78,7 @@ const CheckoutPage = () => {
       try {
         const response = await axios.post(ORDER_API_URL, customer);
         setHasCartUpdate(true);
-        history.push("/order-confirm", { order: response.data });
+        history.push({ pathname: "/order-confirm", state: response.data });
       } catch (error) {
         console.log(error);
       }
@@ -133,11 +132,13 @@ const CheckoutPage = () => {
                 variant={"outlined"}
                 className={classes.smallCard}
               >
-                <Typography variant={"h7"}>{product.name}</Typography>
-                <Typography variant={"h7"}>Price: {product.price}$</Typography>
+                <Typography variant={"subtitle1"}>{product.name}</Typography>
+                <Typography variant={"subtitle1"}>
+                  Price: {product.price}$
+                </Typography>
               </Card>
             ))}
-            <Typography variant={"h7"}>
+            <Typography variant={"subtitle1"}>
               Cart total: {calculateCartTotal(cartProducts)}$
             </Typography>
           </Card>
