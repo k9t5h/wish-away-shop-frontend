@@ -7,6 +7,7 @@ import OrderHistory from "./components/OrderService/OrderHistory";
 import OrderConfirmPage from "./components/OrderConfirmPage/OrderConfirmPage";
 import ProductCatalog from "./components/ProductService/ProductCatalog";
 import CartContextHandler, { CartContext } from "./context/CartContext";
+import About from "./components/About";
 
 function App() {
   const context = CartContextHandler();
@@ -23,6 +24,7 @@ function App() {
             <Route exact path={"/cart"} component={CartPage} />
             <Route exact path={"/checkout"} component={CheckoutPage} />
             <Route exact path={"/order-confirm"} component={OrderConfirmPage} />
+            <Route exact path={"/about"} component={About} />
           </Switch>
         </Router>
       </CartContext.Provider>
