@@ -12,6 +12,7 @@ import React, { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import CartCard from "./CartCard";
 import EmptyCartCard from "./EmptyCartCard";
+import CustomButton from "../CheckoutPage/CustomButton";
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -19,21 +20,15 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  checkoutButton: {
-    margin: "15px",
-    width: "180px",
-    height: "40px",
-    fontSize: "1.1rem",
-
-    "&:hover": {
-      backgroundColor: "#a1e4d2",
-    },
-    "& .MuiTouchRipple-root span": {
-      backgroundColor: "blue",
-      opacity: 0.3,
-    },
-  },
 }));
+
+export const calculateCartTotal = (products) => {
+  let sum = 0;
+  for (let product of products) {
+    sum += product.price;
+  }
+  return sum;
+};
 
 export const CART_API_URL = "http://localhost:8762/cart";
 
@@ -42,14 +37,6 @@ const CartPage = () => {
   const classes = useStyles();
 
   const { cartProducts } = useContext(CartContext);
-
-  const calculateCartTotal = () => {
-    let sum = 0;
-    for (let product of cartProducts) {
-      sum += product.price;
-    }
-    return sum;
-  };
 
   const removeItemFromCart = async (productId) => {
     try {
@@ -85,16 +72,12 @@ const CartPage = () => {
             {cartProducts.length !== 0 && (
               <>
                 <Typography variant={"h5"}>
-                  Cart total: {calculateCartTotal()}$
+                  Cart total: {calculateCartTotal(cartProducts)}$
                 </Typography>
-                <Button
-                  className={classes.checkoutButton}
-                  variant="outlined"
-                  disableElevation
-                  onClick={() => history.push("/checkout")}
-                >
-                  Checkout
-                </Button>
+                <CustomButton
+                  text={"Checkout"}
+                  onClickHandler={() => history.push("/checkout")}
+                />
               </>
             )}
           </Box>
