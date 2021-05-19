@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import CartPage from "./components/CartPage/CartPage";
+import CheckoutPage from "./components/CheckoutPage/CheckoutPage";
 import NavBar from "./components/NavBar";
 import ProductCatalog from "./components/ProductService/ProductCatalog";
 import CartContextHandler, { CartContext } from "./context/CartContext";
@@ -17,6 +18,7 @@ function App() {
             <Route exact path="/" component={ProductCatalog} />
             <Route exact path="/products" component={ProductCatalog} />
             <Route path={"/cart"} component={CartPage} />
+            <Route path={"/checkout"} component={CheckoutPage} />
           </Switch>
         </Router>
       </CartContext.Provider>
