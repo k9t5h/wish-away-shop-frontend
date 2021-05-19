@@ -12,6 +12,7 @@ import React, { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { CartContext } from "../../context/CartContext";
 import { calculateCartTotal } from "../CartPage/CartPage";
+import Error from "../Error";
 import CustomButton from "./CustomButton";
 import CustomTextField from "./CustomTextField";
 
@@ -67,6 +68,8 @@ const CheckoutPage = () => {
     country: "",
   });
 
+  const [apiError, setApiError] = useState(false);
+
   const sendOrder = async () => {
     let validData = validateInput();
     if (validData) {
@@ -80,7 +83,7 @@ const CheckoutPage = () => {
         setHasCartUpdate(true);
         history.push({ pathname: "/order-confirm", state: response.data });
       } catch (error) {
-        console.log(error);
+        setApiError(true);
       }
     }
   };
@@ -94,23 +97,23 @@ const CheckoutPage = () => {
         errors[property] = "Required field!";
         valid = false;
       }
-      if (property === "email") {
-        const re =
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        let result = re.test(String(field).toLowerCase());
-        if (result === false) {
-          valid = false;
-          errors[property] = "Invalid email format.";
-        }
+    }
+    if (errors.email === "") {
+      const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let result = re.test(String(customerDetails.email).toLowerCase());
+      if (result === false) {
+        valid = false;
+        errors.email = "Invalid email format.";
       }
-      if (property === "phone") {
-        if (!field.match("^[0-9]+$")) {
-          errors[property] = "Invalid input.";
-          valid = false;
-        } else if (field.length !== 11) {
-          errors[property] = "Invalid input. Phone number wrong length.";
-          valid = false;
-        }
+    }
+    if (errors["phone"] === "") {
+      if (!customerDetails.phone.match("^[0-9]+$")) {
+        errors.phone = "Invalid input.";
+        valid = false;
+      } else if (customerDetails.phone.length !== 11) {
+        errors.phone = "Invalid input. Phone number wrong length.";
+        valid = false;
       }
     }
     setInputError({ ...errors });
@@ -119,115 +122,119 @@ const CheckoutPage = () => {
 
   return (
     <Container>
-      <Box m={5}>
-        <Paper elevation={3} className={classes.paper}>
-          <Box p={2}>
-            <Typography variant={"h4"}>Checkout</Typography>
-          </Box>
-          <Card variant="outlined" className={classes.card}>
-            <Typography variant={"h6"}>Cart details</Typography>
-            {cartProducts.map((product) => (
-              <Card
-                key={product.id}
-                variant={"outlined"}
-                className={classes.smallCard}
-              >
-                <Typography variant={"subtitle1"}>{product.name}</Typography>
-                <Typography variant={"subtitle1"}>
-                  Price: {product.price}$
-                </Typography>
-              </Card>
-            ))}
-            <Typography variant={"subtitle1"}>
-              Cart total: {calculateCartTotal(cartProducts)}$
-            </Typography>
-          </Card>
-          <Card variant="outlined" className={classes.card}>
-            <Typography variant="h6" gutterBottom>
-              Shipping address
-            </Typography>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <CustomTextField
-                  error={inputError}
-                  setData={setCustomerDetails}
-                  data={customerDetails}
-                  setError={setInputError}
-                  fieldname={"name"}
-                  label="Name"
-                />
+      {apiError ? (
+        <Error message={"Unexpected error occured, please try again!"} />
+      ) : (
+        <Box m={5}>
+          <Paper elevation={3} className={classes.paper}>
+            <Box p={2}>
+              <Typography variant={"h4"}>Checkout</Typography>
+            </Box>
+            <Card variant="outlined" className={classes.card}>
+              <Typography variant={"h6"}>Cart details</Typography>
+              {cartProducts.map((product) => (
+                <Card
+                  key={product.id}
+                  variant={"outlined"}
+                  className={classes.smallCard}
+                >
+                  <Typography variant={"subtitle1"}>{product.name}</Typography>
+                  <Typography variant={"subtitle1"}>
+                    Price: {product.price}$
+                  </Typography>
+                </Card>
+              ))}
+              <Typography variant={"subtitle1"}>
+                Cart total: {calculateCartTotal(cartProducts)}$
+              </Typography>
+            </Card>
+            <Card variant="outlined" className={classes.card}>
+              <Typography variant="h6" gutterBottom>
+                Shipping address
+              </Typography>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    error={inputError}
+                    setData={setCustomerDetails}
+                    data={customerDetails}
+                    setError={setInputError}
+                    fieldname={"name"}
+                    label="Name"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    error={inputError}
+                    setData={setCustomerDetails}
+                    data={customerDetails}
+                    setError={setInputError}
+                    fieldname={"email"}
+                    label="Email"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    error={inputError}
+                    setData={setCustomerDetails}
+                    data={customerDetails}
+                    setError={setInputError}
+                    fieldname={"address"}
+                    label="Address"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <CustomTextField
+                    error={inputError}
+                    setData={setCustomerDetails}
+                    data={customerDetails}
+                    setError={setInputError}
+                    fieldname={"city"}
+                    label="City"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <CustomTextField
+                    error={inputError}
+                    setData={setCustomerDetails}
+                    data={customerDetails}
+                    setError={setInputError}
+                    fieldname={"phone"}
+                    label="Phone number"
+                    required={false}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <CustomTextField
+                    error={inputError}
+                    setData={setCustomerDetails}
+                    data={customerDetails}
+                    setError={setInputError}
+                    fieldname={"postalCode"}
+                    label="Zip / Postal code"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <CustomTextField
+                    error={inputError}
+                    setData={setCustomerDetails}
+                    data={customerDetails}
+                    setError={setInputError}
+                    fieldname={"country"}
+                    label="Country"
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <CustomTextField
-                  error={inputError}
-                  setData={setCustomerDetails}
-                  data={customerDetails}
-                  setError={setInputError}
-                  fieldname={"email"}
-                  label="Email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <CustomTextField
-                  error={inputError}
-                  setData={setCustomerDetails}
-                  data={customerDetails}
-                  setError={setInputError}
-                  fieldname={"address"}
-                  label="Address"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CustomTextField
-                  error={inputError}
-                  setData={setCustomerDetails}
-                  data={customerDetails}
-                  setError={setInputError}
-                  fieldname={"city"}
-                  label="City"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CustomTextField
-                  error={inputError}
-                  setData={setCustomerDetails}
-                  data={customerDetails}
-                  setError={setInputError}
-                  fieldname={"phone"}
-                  label="Phone number"
-                  required={false}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CustomTextField
-                  error={inputError}
-                  setData={setCustomerDetails}
-                  data={customerDetails}
-                  setError={setInputError}
-                  fieldname={"postalCode"}
-                  label="Zip / Postal code"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CustomTextField
-                  error={inputError}
-                  setData={setCustomerDetails}
-                  data={customerDetails}
-                  setError={setInputError}
-                  fieldname={"country"}
-                  label="Country"
-                />
-              </Grid>
-            </Grid>
-          </Card>
-          <CustomButton
-            text={"Order"}
-            onClickHandler={() => {
-              sendOrder();
-            }}
-          />
-        </Paper>
-      </Box>
+            </Card>
+            <CustomButton
+              text={"Order"}
+              onClickHandler={() => {
+                sendOrder();
+              }}
+            />
+          </Paper>
+        </Box>
+      )}
     </Container>
   );
 };
