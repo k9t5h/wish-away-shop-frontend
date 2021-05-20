@@ -30,7 +30,7 @@ export const calculateCartTotal = (products) => {
   return sum;
 };
 
-export const CART_API_URL = "http://localhost:8762/cart";
+export const CART_API_URL = "https://wa-api-gateway.herokuapp.com/cart";
 
 const CartPage = () => {
   const history = useHistory();
@@ -55,7 +55,7 @@ const CartPage = () => {
   return (
     <Container>
       {apiError && (
-        <Error message={"Unexpected error occured, please try again!"} />
+        <Error message={"Unexpected error occurred, please try again!"} />
       )}
       <Box m={5}>
         <Paper className={classes.paper} elevation={3}>
