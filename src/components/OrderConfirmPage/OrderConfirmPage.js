@@ -54,7 +54,7 @@ const OrderConfirmPage = () => {
           <Box p={2}>
             <Typography variant={"h4"}>Thank you for your order!</Typography>
             <Typography variant={"subtitle1"}>
-              You can check your order details any time by serching for your
+              You can check your order details any time by searching for your
               Order ID at <a href="/order">Order history</a>!
             </Typography>
           </Box>

@@ -55,7 +55,7 @@ const CartPage = () => {
   return (
     <Container>
       {apiError && (
-        <Error message={"Unexpected error occured, please try again!"} />
+        <Error message={"Unexpected error occurred, please try again!"} />
       )}
       <Box m={5}>
         <Paper className={classes.paper} elevation={3}>
