@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CheckoutPage = () => {
-  const ORDER_API_URL = "http://localhost:8762/order";
+  const ORDER_API_URL = "https://wa-order-service.herokuapp.com/order";
   const classes = useStyles();
   const history = useHistory();
   const { cartProducts, setHasCartUpdate } = useContext(CartContext);
@@ -99,8 +99,7 @@ const CheckoutPage = () => {
       }
     }
     if (errors.email === "") {
-      const re =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       let result = re.test(String(customerDetails.email).toLowerCase());
       if (result === false) {
         valid = false;
@@ -123,7 +122,7 @@ const CheckoutPage = () => {
   return (
     <Container>
       {apiError ? (
-        <Error message={"Unexpected error occured, please try again!"} />
+        <Error message={"Unexpected error occurred, please try again!"} />
       ) : (
         <Box m={5}>
           <Paper elevation={3} className={classes.paper}>

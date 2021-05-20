@@ -5,7 +5,7 @@ import OrderDetails from "./OrderDetails";
 import Error from "../Error";
 import OrderFinder from "./OrderFinder";
 
-const ORDER_REST_API_URL = "http://localhost:8762/order/";
+const ORDER_REST_API_URL = "https://wa-order-service.herokuapp.com/order/";
 
 const useStyles = makeStyles(() => ({
   container: {
