@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Menu, MenuItem, Fab } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-const CATEGORY_REST_API_URL = "http://localhost:8762/products/categories";
+const CATEGORY_REST_API_URL =
+  "https://wa-api-gateway.herokuapp.com/products/categories";
 
 const useStyles = makeStyles(() => ({
   button: {

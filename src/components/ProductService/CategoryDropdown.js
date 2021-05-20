@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 
-const CATEGORY_REST_API_URL = "http://localhost:8762/products/categories";
+const CATEGORY_REST_API_URL =
+  "https://wa-api-gateway.herokuapp.com/products/categories";
 
 const CategoryDropdown = (props) => {
   const [categories, setCategories] = useState([]);

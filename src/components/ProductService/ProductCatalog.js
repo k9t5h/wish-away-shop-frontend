@@ -9,7 +9,7 @@ import ProductFilter from "./ProductFilter";
 import Info from "../Info";
 import ModalDialog from "./ModalDialog";
 
-const PRODUCT_REST_API_URL = "http://localhost:8762/products";
+const PRODUCT_REST_API_URL = "https://wa-api-gateway.herokuapp.com/products";
 
 const useStyles = makeStyles(() => ({
   root: {

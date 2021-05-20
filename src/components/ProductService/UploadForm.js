@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import CategoryDropdown from "./CategoryDropdown";
 
-const PRODUCT_REST_API_URL = "http://localhost:8762/products";
+const PRODUCT_REST_API_URL = "https://wa-api-gateway.herokuapp.com/products";
 
 const useStyles = makeStyles((theme) => ({
   root: {
